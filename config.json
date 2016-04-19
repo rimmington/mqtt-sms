@@ -1,0 +1,8 @@
+{
+  "mqtt": {
+    "host": "http://localhost",
+    "topic" : {
+      "smses": "sms/#"
+    }
+  }
+}
