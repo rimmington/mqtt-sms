@@ -1,7 +1,8 @@
-const mqtt   = require('mqtt');
-const twilio = require('twilio');
+const mqtt    = require('mqtt');
+const twilio  = require('twilio');
+const winston = require('winston');
 
-const config = require('../config.json');
+const config           = require('../config.json');
 const twilioAccoundSid = process.env.TWILIO_ACCOUNT_SID;
 const twilioAuthToken  = process.env.TWILIO_AUTH_TOKEN;
 
@@ -13,12 +14,14 @@ mqttClient.on('connect', () => {
 });
 
 mqttClient.on('message', (topic, rawMessage) => {
+  winston.info('Message recieved! Processing...');
+
   const sms = JSON.parse(rawMessage.toString());
   twilioClient.messages.create({
     to:   sms.to,
     from: 'DetoxSMS',
-    body: sms.message,
-  }, (err, message) => {
-    console.error(err);
+    body: sms.message
+  }, (err) => {
+    winston.error(err);
   });
 });
