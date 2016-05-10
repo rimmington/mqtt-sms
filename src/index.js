@@ -21,7 +21,11 @@ mqttClient.on('message', (topic, rawMessage) => {
     to:   sms.to,
     from: 'DetoxSMS',
     body: sms.message
-  }, (err) => {
-    winston.error(err);
+  }, (err, message) => {
+    if (message.errorMessage !== null) {
+      winston.error(message);
+    } else {
+      winston.info(`Looks like the message was sent to ${message.to} successfully.`);
+    }
   });
 });
