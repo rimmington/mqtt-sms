@@ -10,7 +10,7 @@ const twilioClient = twilio(twilioAccoundSid, twilioAuthToken);
 const mqttClient   = mqtt.connect(config.mqtt.host);
 
 mqttClient.on('connect', () => {
-  mqttClient.subscribe(config.mqtt.topic.smses);
+  mqttClient.subscribe(config.mqtt.topic.smses, { qos: 1 });
 });
 
 mqttClient.on('message', (topic, rawMessage) => {
